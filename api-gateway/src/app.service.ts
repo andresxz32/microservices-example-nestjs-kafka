@@ -1,8 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+
+  constructor(@Inject('VIDEO_SERVICE') private readonly _videoClient: ClientKafka) { }
+
+
+
+  createVideo(video) {
+    return this._videoClient.emit(
+      'createVideo',
+      video
+    )
   }
 }

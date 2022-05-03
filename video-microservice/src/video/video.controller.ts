@@ -9,27 +9,8 @@ export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
   @MessagePattern('createVideo')
-  create(@Payload() createVideoDto: CreateVideoDto) {
-    return this.videoService.create(createVideoDto);
+  create(@Payload() video) {
+    return this.videoService.create(video.value);
   }
 
-  @MessagePattern('findAllVideo')
-  findAll() {
-    return this.videoService.findAll();
-  }
-
-  @MessagePattern('findOneVideo')
-  findOne(@Payload() id: number) {
-    return this.videoService.findOne(id);
-  }
-
-  @MessagePattern('updateVideo')
-  update(@Payload() updateVideoDto: UpdateVideoDto) {
-    return this.videoService.update(updateVideoDto.id, updateVideoDto);
-  }
-
-  @MessagePattern('removeVideo')
-  remove(@Payload() id: number) {
-    return this.videoService.remove(id);
-  }
 }
