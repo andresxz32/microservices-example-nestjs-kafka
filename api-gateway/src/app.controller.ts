@@ -6,10 +6,14 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
 
-  @Post()
+  @Post('video')
   createVideo(@Body() video) {
     return this.appService.createVideo(video);
+  }
 
+  @Post('user')
+  createUser(@Body() user){
+    return this.appService.createUser(user);
   }
 
 

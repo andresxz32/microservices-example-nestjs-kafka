@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ConsoleLogger, Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { Model } from 'mongoose';
 import { CreateVideoDto } from './dto/create-video.dto';
@@ -13,6 +13,8 @@ export class VideoService {
   ) {}
 
   async create(createVideoDto: CreateVideoDto) {
+    Logger.log('ENTRO al create video');
+    console.log('entro al create');
     await this._videoModel.create(createVideoDto);
     this.updateQuantity(createVideoDto.userId)
   }
