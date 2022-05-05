@@ -12,11 +12,12 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
-      port: 33060,
+      port: 3306,
       username: 'root',
-      password: '123456',
-      database: 'user_microservice',
-      entities: [User],
+      password: '123',
+      database: 'user',
+      autoLoadEntities: true,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     ClientsModule.register([

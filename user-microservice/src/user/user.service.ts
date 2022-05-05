@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -10,24 +10,24 @@ export class UserService {
 
   constructor(
     @InjectRepository(User)
-    private readonly _userRepository: Repository<User>,
-  ) {}
+    public userRepository: Repository<User>,
+  ) { }
 
 
-
-  create(createUserDto: CreateUserDto) {
-    return this._userRepository.create(createUserDto)
+  async create(createUserDto: CreateUserDto) {
+    const user = this.userRepository.create(createUserDto as any);
+    return await this.userRepository.save(user);
   }
 
-  findAll() {
-    return this._userRepository.find();
+  async findOne(id: number) {
+    const user = await this.userRepository.findOne(id);
+    if (!user) throw new NotFoundException('Usuario no existe!!');
+    return user;
   }
 
-  findOne(id: number) {
-    return this._userRepository.findOne(id);
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this._userRepository.update(id,updateUserDto)
+  async update(id: number, quantity_videos: number) {
+    const user = await this.findOne(id);
+    const editedUser = { ...user, quantity_videos }
+    return await this.userRepository.save(editedUser);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Logger } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserService } from './user.service';
 
@@ -9,16 +9,15 @@ export class UserController {
 
   @MessagePattern('updateQuantity')
   async update(@Payload() userId) {
-    const user = await this.userService.findOne(userId);
-    //console.log(user);
-    //return this.userService.update(userId, );
+    const user = await this.userService.findOne(userId.value);
+    const quantity = user.quantity_videos + 1;
+    return this.userService.update(userId.value, quantity );
   }
 
 
 
   @MessagePattern('createUser')
   async create(@Payload() user) {
-    console.log(user);
     return this.userService.create(user.value);
   }
 }
